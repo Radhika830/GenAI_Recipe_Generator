@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GenAI Recipe Generator</title>
+
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <img src="https://images.unsplash.com/photo-1543353071-087092ec393d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=..." alt="logo" class="logo"/>
+      <h1>GenAI Recipe Generator</h1>
+      <p class="tagline">Turn pantry ingredients into personalized recipes — fast.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Left panel (inputs) -->
+    <section class="left-panel">
+      <div class="card input-card">
+        <h2><i class="fa-solid fa-spoon-fork"></i> Ingredients</h2>
+
+        <label for="ingredients" class="sr-only">Ingredients</label>
+        <textarea id="ingredients" placeholder="List ingredients separated by commas (e.g., tomato, pasta, basil)" rows="3"></textarea>
+
+        <div class="controls-row">
+          <div class="control">
+            <label for="diet">Dietary</label>
+            <select id="diet" aria-label="Dietary restrictions">
+              <option value="none">No preference</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="gluten-free">Gluten-free</option>
+              <option value="keto">Keto</option>
+            </select>
+          </div>
+
+          <div class="control">
+            <label for="time">Max time (mins)</label>
+            <input id="time" type="range" min="5" max="120" value="30" />
+            <div class="range-value"><span id="time-value">30</span> mins</div>
+          </div>
+        </div>
+
+        <div class="controls-row two">
+          <div class="control small">
+            <label for="servings">Servings</label>
+            <input id="servings" type="number" min="1" max="12" value="2" />
+          </div>
+
+          <div class="control small">
+            <label for="style">Cuisine style</label>
+            <select id="style">
+              <option value="any">Any</option>
+              <option value="italian">Italian</option>
+              <option value="indian">Indian</option>
+              <option value="mexican">Mexican</option>
+              <option value="fusion">Fusion</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="generateBtn" class="btn primary">
+            <i class="fa-solid fa-bolt"></i> Generate Recipe
+          </button>
+
+          <button id="surpriseBtn" class="btn ghost" title="Surprise me with a recipe based on random ingredients">
+            <i class="fa-solid fa-dice"></i> Surprise Me
+          </button>
+        </div>
+
+        <small class="hint"><i class="fa-solid fa-info-circle"></i> Tip: Separate ingredients with commas for best results.</small>
+      </div>
+
+      <div class="card examples-card">
+        <h3>Example Inputs</h3>
+        <div class="examples">
+          <button class="chip">tomato, basil, mozzarella</button>
+          <button class="chip">rice, chicken, soy sauce</button>
+          <button class="chip">potato, spinach, cheese</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right panel (output) -->
+    <section class="right-panel">
+      <div class="card output-card" id="recipe-output" aria-live="polite">
+        <div class="output-top">
+          <div class="output-meta">
+            <h2 id="recipe-title">Your recipe will appear here</h2>
+            <div class="meta-row">
+              <span id="recipe-time"><i class="fa-solid fa-clock"></i> —</span>
+              <span id="recipe-servings"><i class="fa-solid fa-user"></i> —</span>
+            </div>
+          </div>
+
+          <div class="output-image">
+            <img id="recipe-image" src="https://images.unsplash.com/photo-1528736231701-1f78a7f74b57?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=..." alt="dish image">
+          </div>
+        </div>
+
+        <div id="recipe-body" class="recipe-body">
+          <div class="placeholder">
+            <i class="fa-solid fa-utensils"></i>
+            <p>Enter ingredients and press <strong>Generate Recipe</strong> to get a personalized recipe with steps, ingredients list, and tips.</p>
+          </div>
+        </div>
+
+        <div class="output-actions">
+          <button id="saveBtn" class="btn" disabled><i class="fa-solid fa-floppy-disk"></i> Save</button>
+          <button id="printBtn" class="btn" disabled><i class="fa-solid fa-print"></i> Print</button>
+          <button id="regenerateBtn" class="btn ghost" disabled><i class="fa-solid fa-rotate-right"></i> Regenerate</button>
+        </div>
+      </div>
+
+      <div class="card info-card">
+        <h4><i class="fa-solid fa-seedling"></i> About</h4>
+        <p>This GenAI-powered assistant uses ML and NLP techniques to generate step-by-step recipes tailored to your ingredients, dietary preferences, and time constraints. Connect this frontend to your backend API (e.g., <code>/api/generate</code>) to activate generation.</p>
+        <ul class="features">
+          <li><i class="fa-solid fa-circle-check"></i> Retrieval + generation ready</li>
+          <li><i class="fa-solid fa-circle-check"></i> Responsive & accessible</li>
+          <li><i class="fa-solid fa-circle-check"></i> Extendable to nutrition / multilingual</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-about">
+        <h4>About GenAI Recipe Generator</h4>
+        <p>GenAI Recipe Generator turns your pantry ingredients into personalized recipes in seconds. 
+        Designed for home cooks, it adapts to your dietary needs, cooking time, and preferred cuisine style.</p>
+      </div>
+
+      <div class="footer-meta">
+        <p>&copy; 2024 GenAI Recipe Generator. All rights reserved.</p>
+        <div class="socials">
+          <a href="#" aria-label="Github"><i class="fa-brands fa-github"></i></a>
+          <a href="#" aria-label="Hugging Face"><i class="fa-brands fa-hugging-face"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
